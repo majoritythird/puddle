@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MyScene.h"
 
 @interface SessionController : NSObject
 
-- (instancetype)initWithSessionDelegate:(id<MCSessionDelegate>)sessionDelegate;
+- (instancetype)initWithScene:(MyScene *)scene;
 - (void)shutDown;
 
 @end

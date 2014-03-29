@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DE46434B18E7552D006118C2 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = DE46434A18E7552D006118C2 /* Globals.m */; };
 		DE61661418E683EF003D71DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661318E683EF003D71DE /* Foundation.framework */; };
 		DE61661618E683EF003D71DE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661518E683EF003D71DE /* CoreGraphics.framework */; };
 		DE61661818E683EF003D71DE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661718E683EF003D71DE /* UIKit.framework */; };
@@ -39,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DE46434918E7552D006118C2 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		DE46434A18E7552D006118C2 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
 		DE61661018E683EF003D71DE /* Puddle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puddle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE61661318E683EF003D71DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DE61661518E683EF003D71DE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -128,6 +131,8 @@
 			children = (
 				DE61662418E683EF003D71DE /* AppDelegate.h */,
 				DE61662518E683EF003D71DE /* AppDelegate.m */,
+				DE46434918E7552D006118C2 /* Globals.h */,
+				DE46434A18E7552D006118C2 /* Globals.m */,
 				DE61663518E683EF003D71DE /* Images.xcassets */,
 				DE61662A18E683EF003D71DE /* Main_iPad.storyboard */,
 				DE61662718E683EF003D71DE /* Main_iPhone.storyboard */,
@@ -275,6 +280,7 @@
 				DE61662F18E683EF003D71DE /* ViewController.m in Sources */,
 				DE61662618E683EF003D71DE /* AppDelegate.m in Sources */,
 				DE61665418E685A8003D71DE /* SessionController.m in Sources */,
+				DE46434B18E7552D006118C2 /* Globals.m in Sources */,
 				DE61662218E683EF003D71DE /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

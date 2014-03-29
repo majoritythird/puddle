@@ -54,7 +54,7 @@
   MyScene *scene = [MyScene sceneWithSize:skView.bounds.size];
   scene.scaleMode = SKSceneScaleModeAspectFill;
   
-  self.sessionController = [[SessionController alloc] initWithSessionDelegate:scene];
+  self.sessionController = [[SessionController alloc] initWithScene:scene];
   
   // Present the scene.
   [skView presentScene:scene];

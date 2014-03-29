@@ -9,13 +9,13 @@
 #import "SessionController.h"
 
 @interface SessionController ()
-<MCNearbyServiceBrowserDelegate,MCNearbyServiceAdvertiserDelegate>
+<MCNearbyServiceBrowserDelegate,MCNearbyServiceAdvertiserDelegate,MCSessionDelegate>
 
 @property(nonatomic,strong) MCNearbyServiceAdvertiser *advertiser;
 @property(nonatomic,strong) MCNearbyServiceBrowser *browser;
 @property(nonatomic,strong) MCPeerID *peerID;
 @property(nonatomic,strong) MCSession *session;
-@property(nonatomic,strong) id<MCSessionDelegate> sessionDelegate;
+@property(nonatomic,strong) MyScene *scene;
 
 @end
 
@@ -30,11 +30,11 @@
   [_session disconnect];
 }
 
-- (instancetype)initWithSessionDelegate:(id<MCSessionDelegate>)sessionDelegate
+- (instancetype)initWithScene:(id)scene
 {
   self = [super init];
   if (self) {
-    _sessionDelegate = sessionDelegate;
+    _scene = scene;
     [self startServices:nil];
   }
   return self;
@@ -42,12 +42,19 @@
 
 #pragma mark - Methods
 
+- (void)shutDown
+{
+  [self.advertiser stopAdvertisingPeer];
+  [self.browser stopBrowsingForPeers];
+  [self.session disconnect];
+}
+
 - (void)startServices:(id)notification
 {
   NSString *deviceName = [UIDevice currentDevice].name;
   self.peerID = [[MCPeerID alloc] initWithDisplayName:deviceName];
   self.session = [[MCSession alloc] initWithPeer:_peerID];
-  self.session.delegate = self.sessionDelegate;
+  self.session.delegate = self;
   self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:_peerID discoveryInfo:nil serviceType:@"mt-puddle"];
   self.advertiser.delegate = self;
   
@@ -58,11 +65,18 @@
   [self.browser startBrowsingForPeers];
 }
 
-- (void)shutDown
+- (NSString *)stringForPeerConnectionState:(MCSessionState)state
 {
-  [self.advertiser stopAdvertisingPeer];
-  [self.browser stopBrowsingForPeers];
-  [self.session disconnect];
+  switch (state) {
+    case MCSessionStateConnected:
+      return @"Connected";
+      
+    case MCSessionStateConnecting:
+      return @"Connecting";
+      
+    case MCSessionStateNotConnected:
+      return @"Not Connected";
+  }
 }
 
 #pragma mark - MCNearbyServiceBrowserDelegate
@@ -102,6 +116,51 @@
 {
   NSLog(@"Peer %@ accepting invitation from %@", self.peerID.displayName, peerID.displayName);
   invitationHandler(YES, self.session);
+}
+
+#pragma mark - MCSessionDelegate
+
+- (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
+{
+  NSLog(@"Peer [%@] changed state to %@", peerID.displayName, [self stringForPeerConnectionState:state]);
+  
+  switch (state) {
+    case MCSessionStateConnected: {
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      NSString *critterName = [defaults objectForKey:kCritterNameKey];
+      NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
+      [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
+    }
+      
+    case MCSessionStateConnecting:
+      return;
+      
+    case MCSessionStateNotConnected: {
+      [self.scene removeSpriteNamed:peerID.displayName];
+    }
+  }
+}
+
+// MCSession Delegate callback when receiving data from a peer in a given session
+- (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
+{
+  NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  [self.scene addSpriteNamed:peerID.displayName withImageNamed:critterName];
+}
+
+// MCSession delegate callback when we start to receive a resource from a peer in a given session
+- (void)session:(MCSession *)session didStartReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID withProgress:(NSProgress *)progress
+{
+}
+
+// MCSession delegate callback when a incoming resource transfer ends (possibly with error)
+- (void)session:(MCSession *)session didFinishReceivingResourceWithName:(NSString *)resourceName fromPeer:(MCPeerID *)peerID atURL:(NSURL *)localURL withError:(NSError *)error
+{
+}
+
+// Streaming API not utilized in this sample code
+- (void)session:(MCSession *)session didReceiveStream:(NSInputStream *)stream withName:(NSString *)streamName fromPeer:(MCPeerID *)peerID
+{
 }
 
 @end

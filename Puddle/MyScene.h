@@ -9,6 +9,10 @@
 #import <SpriteKit/SpriteKit.h>
 
 @interface MyScene : SKScene
-<MCSessionDelegate>
+
+@property(nonatomic,copy) NSString *critterName;
+
+- (void)addSpriteNamed:(NSString *)name withImageNamed:(NSString *)imageName;
+- (void)removeSpriteNamed:(NSString *)name;
 
 @end
