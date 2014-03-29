@@ -8,7 +8,12 @@
 
 #import "MyScene.h"
 
+static const uint32_t wallCategory     =  0x1 << 0;
+static const uint32_t critterCategory  =  0x1 << 1;
+
 @interface MyScene ()
+
+@property(nonatomic,strong) SKSpriteNode *mySprite;
 
 @end
 
@@ -18,17 +23,30 @@
 
 -(id)initWithSize:(CGSize)size {
   if (self = [super initWithSize:size]) {
-    /* Setup your scene here */
     
     self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
     
-    SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-    
-    myLabel.text = @"Hello, World!";
-    myLabel.fontSize = 30;
-    myLabel.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    
-    [self addChild:myLabel];
+    NSUInteger critterImageIndex = arc4random() % 2 + 1;
+    _mySprite = [SKSpriteNode spriteNodeWithImageNamed:[NSString stringWithFormat:@"Critter%@",@(critterImageIndex)]];
+    CGPoint location = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame));
+    _mySprite.name = @"ME";
+    _mySprite.position = location;
+    SKAction *action = [SKAction rotateByAngle:M_PI duration:40];
+    [_mySprite runAction:[SKAction repeatActionForever:action]];
+    _mySprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_mySprite.size];
+    _mySprite.physicsBody.categoryBitMask = critterCategory;
+    _mySprite.physicsBody.friction = 0.0;
+    _mySprite.physicsBody.linearDamping = 0.0;
+    _mySprite.physicsBody.restitution = 1;
+    [self addChild:_mySprite];
+    [_mySprite.physicsBody applyImpulse:CGVectorMake(5.0f, -0.5f)];
+
+    SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    self.physicsBody = wallBody;
+    self.physicsBody.categoryBitMask = wallCategory;
+    self.physicsBody.friction = 0.0;
+
+    self.physicsWorld.gravity = CGVectorMake(0.0,0.0);
   }
   return self;
 }
@@ -58,11 +76,17 @@
   switch (state) {
     case MCSessionStateConnected: {
       CGPoint location = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame));
-      SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
+      SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Critter1"];
       sprite.name = peerID.displayName;
       sprite.position = location;
-      SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
+      SKAction *action = [SKAction rotateByAngle:M_PI duration:40];
       [sprite runAction:[SKAction repeatActionForever:action]];
+      sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
+      sprite.physicsBody.categoryBitMask = critterCategory;
+      sprite.physicsBody.friction = 0.0;
+      sprite.physicsBody.linearDamping = 0.0;
+      sprite.physicsBody.restitution = 1;
+      [sprite.physicsBody applyImpulse:CGVectorMake(5.0f, 0.5f)];
       [self addChild:sprite];
     }
       

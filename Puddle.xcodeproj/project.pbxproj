@@ -492,6 +492,7 @@
 				DE61664E18E683EF003D71DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DE61664F18E683EF003D71DE /* Build configuration list for PBXNativeTarget "PuddleTests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +501,7 @@
 				DE61665118E683EF003D71DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
