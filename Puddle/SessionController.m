@@ -28,8 +28,6 @@
   [_advertiser stopAdvertisingPeer];
   [_browser stopBrowsingForPeers];
   [_session disconnect];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
-  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (instancetype)initWithSessionDelegate:(id<MCSessionDelegate>)sessionDelegate
@@ -37,8 +35,7 @@
   self = [super init];
   if (self) {
     _sessionDelegate = sessionDelegate;
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startServices:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopServices:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [self startServices:nil];
   }
   return self;
 }
@@ -61,7 +58,7 @@
   [self.browser startBrowsingForPeers];
 }
 
-- (void)stopServices:(id)notification
+- (void)shutDown
 {
   [self.advertiser stopAdvertisingPeer];
   [self.browser stopBrowsingForPeers];
@@ -77,7 +74,7 @@
 
 - (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
 {
-  NSLog(@"Browser found peer %@", peerID.displayName);
+  NSLog(@"%@ browser found peer %@", self.peerID.displayName, peerID.displayName);
   BOOL shouldInvite = ([self.peerID.displayName compare:peerID.displayName]==NSOrderedDescending);
   
   if (shouldInvite) {
@@ -91,7 +88,7 @@
 
 - (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
 {
-  NSLog(@"Browser lost peer %@", peerID.displayName);
+  NSLog(@"%@ browser lost peer %@", self.peerID.displayName, peerID.displayName);
 }
 
 #pragma mark - MCNearbyServiceAdvertiserDelegate
@@ -103,6 +100,7 @@
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler
 {
+  NSLog(@"Peer %@ accepting invitation from %@", self.peerID.displayName, peerID.displayName);
   invitationHandler(YES, self.session);
 }
 

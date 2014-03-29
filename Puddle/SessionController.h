@@ -11,5 +11,6 @@
 @interface SessionController : NSObject
 
 - (instancetype)initWithSessionDelegate:(id<MCSessionDelegate>)sessionDelegate;
+- (void)shutDown;
 
 @end

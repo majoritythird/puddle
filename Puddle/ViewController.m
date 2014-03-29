@@ -20,13 +20,44 @@
 
 #pragma mark - Lifecycle
 
+- (void)dealloc
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
   self = [super initWithCoder:aDecoder];
   if (self) {
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spinItUp:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spinItDown:) name:UIApplicationDidEnterBackgroundNotification object:nil];
   }
   return self;
+}
+
+#pragma mark - Methods
+
+- (void)spinItDown:(id)notification
+{
+  [self.sessionController shutDown];
+}
+
+- (void)spinItUp:(id)notification
+{
+  // Configure the view.
+  SKView *skView = (SKView *)self.view;
+  skView.showsFPS = YES;
+  skView.showsNodeCount = YES;
+  
+  // Create and configure the scene.
+  MyScene *scene = [MyScene sceneWithSize:skView.bounds.size];
+  scene.scaleMode = SKSceneScaleModeAspectFill;
+  
+  self.sessionController = [[SessionController alloc] initWithSessionDelegate:scene];
+  
+  // Present the scene.
+  [skView presentScene:scene];
 }
 
 #pragma mark - UIViewController
@@ -45,23 +76,10 @@
     }
 }
 
-- (void)viewDidLoad
-{
-  [super viewDidLoad];
-  
-  // Configure the view.
-  SKView *skView = (SKView *)self.view;
-  skView.showsFPS = YES;
-  skView.showsNodeCount = YES;
-  
-  // Create and configure the scene.
-  MyScene *scene = [MyScene sceneWithSize:skView.bounds.size];
-  scene.scaleMode = SKSceneScaleModeAspectFill;
-  
-  self.sessionController = [[SessionController alloc] initWithSessionDelegate:scene];
-  
-  // Present the scene.
-  [skView presentScene:scene];
-}
+//- (void)viewDidLoad
+//{
+//  [super viewDidLoad];
+//  
+//}
 
 @end
