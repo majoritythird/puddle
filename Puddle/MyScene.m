@@ -12,6 +12,7 @@ static const uint32_t wallCategory     =  0x1 << 0;
 static const uint32_t critterCategory  =  0x1 << 1;
 
 @interface MyScene ()
+<SKPhysicsContactDelegate>
 
 @property(nonatomic,strong) SKSpriteNode *mySprite;
 
@@ -42,6 +43,7 @@ static const uint32_t critterCategory  =  0x1 << 1;
     [_mySprite runAction:[SKAction repeatActionForever:action]];
     _mySprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_mySprite.size];
     _mySprite.physicsBody.categoryBitMask = critterCategory;
+    _mySprite.physicsBody.contactTestBitMask = critterCategory;
     _mySprite.physicsBody.friction = 0.0;
     _mySprite.physicsBody.linearDamping = 0.0;
     _mySprite.physicsBody.restitution = 1;
@@ -53,8 +55,10 @@ static const uint32_t critterCategory  =  0x1 << 1;
     self.physicsBody.categoryBitMask = wallCategory;
     self.physicsBody.friction = 0.0;
     self.physicsBody.linearDamping = 0.0;
+    self.physicsBody.restitution = 1;
 
     self.physicsWorld.gravity = CGVectorMake(0.0,0.0);
+    self.physicsWorld.contactDelegate = self;
   }
   return self;
 }
@@ -78,10 +82,42 @@ static const uint32_t critterCategory  =  0x1 << 1;
   [sprite.physicsBody applyImpulse:CGVectorMake(25, 5)];
 }
 
+- (void)critter:(SKSpriteNode *)critter1 didCollideWithCritter:(SKSpriteNode *)critter2
+{
+  [self runAction:[SKAction playSoundFileNamed:@"contact.mp3" waitForCompletion:NO]];
+
+//  CGSize critter1Size = critter1.size;
+//  CGSize newSize = CGSizeMake(critter1Size.width * 1.5, critter1Size.height * 1.5);
+//  critter1.size = newSize;
+//  CGSize critter2Size = critter2.size;
+//  newSize = CGSizeMake(critter2Size.width * 1.5, critter2Size.height * 1.5);
+//  critter2.size = newSize;
+}
+
 - (void)removeSpriteNamed:(NSString *)name
 {
   SKNode *sprite = [self childNodeWithName:name];
   [sprite removeFromParent];
+}
+
+#pragma mark - SKPhysicsContactDelegate
+
+- (void)didBeginContact:(SKPhysicsContact *)contact
+{
+  SKPhysicsBody *firstBody, *secondBody;
+  
+  if (contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask)
+  {
+    firstBody = contact.bodyA;
+    secondBody = contact.bodyB;
+  }
+  else
+  {
+    firstBody = contact.bodyB;
+    secondBody = contact.bodyA;
+  }
+  
+  [self critter:(SKSpriteNode *)firstBody.node didCollideWithCritter:(SKSpriteNode *)secondBody.node];
 }
 
 #pragma mark - SKScene

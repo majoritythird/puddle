@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DE46434B18E7552D006118C2 /* Globals.m in Sources */ = {isa = PBXBuildFile; fileRef = DE46434A18E7552D006118C2 /* Globals.m */; };
+		DE46434F18E75D11006118C2 /* contact.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DE46434E18E75D11006118C2 /* contact.mp3 */; };
 		DE61661418E683EF003D71DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661318E683EF003D71DE /* Foundation.framework */; };
 		DE61661618E683EF003D71DE /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661518E683EF003D71DE /* CoreGraphics.framework */; };
 		DE61661818E683EF003D71DE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661718E683EF003D71DE /* UIKit.framework */; };
@@ -42,6 +43,7 @@
 /* Begin PBXFileReference section */
 		DE46434918E7552D006118C2 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
 		DE46434A18E7552D006118C2 /* Globals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Globals.m; sourceTree = "<group>"; };
+		DE46434E18E75D11006118C2 /* contact.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = contact.mp3; sourceTree = "<group>"; };
 		DE61661018E683EF003D71DE /* Puddle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puddle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE61661318E683EF003D71DE /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		DE61661518E683EF003D71DE /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -129,6 +131,7 @@
 		DE61661B18E683EF003D71DE /* Puddle */ = {
 			isa = PBXGroup;
 			children = (
+				DE46434E18E75D11006118C2 /* contact.mp3 */,
 				DE61662418E683EF003D71DE /* AppDelegate.h */,
 				DE61662518E683EF003D71DE /* AppDelegate.m */,
 				DE46434918E7552D006118C2 /* Globals.h */,
@@ -256,6 +259,7 @@
 				DE61663418E683EF003D71DE /* Spaceship.png in Resources */,
 				DE61663618E683EF003D71DE /* Images.xcassets in Resources */,
 				DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */,
+				DE46434F18E75D11006118C2 /* contact.mp3 in Resources */,
 				DE61662918E683EF003D71DE /* Main_iPhone.storyboard in Resources */,
 				DE61662018E683EF003D71DE /* InfoPlist.strings in Resources */,
 			);
