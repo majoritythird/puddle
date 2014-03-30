@@ -21,7 +21,6 @@
 		DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE61662A18E683EF003D71DE /* Main_iPad.storyboard */; };
 		DE61662F18E683EF003D71DE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61662E18E683EF003D71DE /* ViewController.m */; };
 		DE61663218E683EF003D71DE /* PuddleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61663118E683EF003D71DE /* PuddleScene.m */; };
-		DE61663418E683EF003D71DE /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = DE61663318E683EF003D71DE /* Spaceship.png */; };
 		DE61663618E683EF003D71DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE61663518E683EF003D71DE /* Images.xcassets */; };
 		DE61663D18E683EF003D71DE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61663C18E683EF003D71DE /* XCTest.framework */; };
 		DE61663E18E683EF003D71DE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61661318E683EF003D71DE /* Foundation.framework */; };
@@ -68,7 +67,6 @@
 		DE61662E18E683EF003D71DE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		DE61663018E683EF003D71DE /* PuddleScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PuddleScene.h; sourceTree = "<group>"; };
 		DE61663118E683EF003D71DE /* PuddleScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PuddleScene.m; sourceTree = "<group>"; };
-		DE61663318E683EF003D71DE /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		DE61663518E683EF003D71DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DE61663B18E683EF003D71DE /* PuddleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuddleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE61663C18E683EF003D71DE /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -149,11 +147,8 @@
 			children = (
 				DE61662418E683EF003D71DE /* AppDelegate.h */,
 				DE61662518E683EF003D71DE /* AppDelegate.m */,
-				DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */,
-				DE46434E18E75D11006118C2 /* contact.mp3 */,
 				DEC2C3FA18E7CDDA00864AC3 /* CritterSpriteNode.h */,
 				DEC2C3FB18E7CDDA00864AC3 /* CritterSpriteNode.m */,
-				DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */,
 				DE46434918E7552D006118C2 /* Globals.h */,
 				DE46434A18E7552D006118C2 /* Globals.m */,
 				DE61663518E683EF003D71DE /* Images.xcassets */,
@@ -163,7 +158,7 @@
 				DE61663118E683EF003D71DE /* PuddleScene.m */,
 				DE61665218E685A8003D71DE /* SessionController.h */,
 				DE61665318E685A8003D71DE /* SessionController.m */,
-				DE61663318E683EF003D71DE /* Spaceship.png */,
+				DEB192D618E7D7F300B876F2 /* Sounds */,
 				DE61661C18E683EF003D71DE /* Supporting Files */,
 				DE61662D18E683EF003D71DE /* ViewController.h */,
 				DE61662E18E683EF003D71DE /* ViewController.m */,
@@ -200,6 +195,16 @@
 				DE61664518E683EF003D71DE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DEB192D618E7D7F300B876F2 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */,
+				DE46434E18E75D11006118C2 /* contact.mp3 */,
+				DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */,
+			);
+			name = Sounds;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -280,7 +285,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE61663418E683EF003D71DE /* Spaceship.png in Resources */,
 				DE61663618E683EF003D71DE /* Images.xcassets in Resources */,
 				DEC2C3F618E7A0AA00864AC3 /* appear.mp3 in Resources */,
 				DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */,
