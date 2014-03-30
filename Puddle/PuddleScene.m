@@ -36,6 +36,7 @@
       NSUInteger critterImageIndex = arc4random() % 2 + 1;
       self.critterName = [NSString stringWithFormat:@"Critter%@", @(critterImageIndex)];
       [defaults setObject:self.critterName forKey:kCritterNameKey];
+      [defaults synchronize];
     }
     
     _mySprite = [self addPeerSpriteWithName:@"me" imageName:self.critterName];
