@@ -8,9 +8,8 @@
 
 #import <CoreMotion/CoreMotion.h>
 #import "MyScene.h"
-
-static const uint32_t wallCategory     =  0x1 << 0;
-static const uint32_t critterCategory  =  0x1 << 1;
+#import "CritterSpriteNode.h"
+#import "VirusSpriteNode.h"
 
 @interface MyScene ()
 <SKPhysicsContactDelegate>
@@ -39,27 +38,17 @@ static const uint32_t critterCategory  =  0x1 << 1;
       [defaults setObject:self.critterName forKey:kCritterNameKey];
     }
     
-    _mySprite = [SKSpriteNode spriteNodeWithImageNamed:self.critterName];
-    CGPoint location = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame));
-    _mySprite.name = @"ME";
-    _mySprite.position = location;
-    SKAction *action = [SKAction rotateByAngle:M_PI duration:40];
-    [_mySprite runAction:[SKAction repeatActionForever:action]];
-    _mySprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:_mySprite.size];
-    _mySprite.physicsBody.categoryBitMask = critterCategory;
-    _mySprite.physicsBody.contactTestBitMask = critterCategory;
-    _mySprite.physicsBody.friction = 0.2;
-    _mySprite.physicsBody.linearDamping = 0.2;
-    _mySprite.physicsBody.restitution = 0.8;
-    [self addChild:_mySprite];
-    [self runAction:[SKAction playSoundFileNamed:@"appear.mp3" waitForCompletion:NO]];
-//    [_mySprite.physicsBody applyImpulse:CGVectorMake(5.0f, -0.5f)];
-
+    _mySprite = [self addPeerSpriteWithName:@"me" imageName:self.critterName];
+    
     SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     self.physicsBody = wallBody;
     self.physicsBody.categoryBitMask = wallCategory;
     self.physicsBody.friction = 0.2;
     self.physicsBody.restitution = 0.2;
+
+    VirusSpriteNode *virus = [VirusSpriteNode spriteNodeWithImageNamed:@"Virus"];
+    virus.position = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame) + 100);
+    [self addChild:virus];
 
     _motionManager = [[CMMotionManager alloc] init];
     if([_motionManager isDeviceMotionAvailable]) {
@@ -76,11 +65,10 @@ static const uint32_t critterCategory  =  0x1 << 1;
            for (SKSpriteNode *child in self.scene.children) {
              [child.physicsBody applyImpulse:CGVectorMake(attitude.roll * 0.2, -attitude.pitch * 0.2)];
            }
-           //_mySprite.physicsBody applyImpulse:CGVectorMake(attitude.roll * 0.6, -attitude.pitch * 0.6)];
          }
        }];
     }
-
+    
     self.physicsWorld.gravity = CGVectorMake(0.0,0.0);
     self.physicsWorld.contactDelegate = self;
   }
@@ -89,22 +77,15 @@ static const uint32_t critterCategory  =  0x1 << 1;
 
 #pragma mark - Methods
 
-- (void)addSpriteNamed:(NSString *)name withImageNamed:(NSString *)imageName
+- (SKSpriteNode *)addPeerSpriteWithName:(NSString *)name imageName:(NSString *)imageName
 {
-  [self runAction:[SKAction playSoundFileNamed:@"appear.mp3" waitForCompletion:NO]];
+  CritterSpriteNode *sprite = [[CritterSpriteNode alloc] initWithName:name imageName:imageName];
   CGPoint location = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame));
-  SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:imageName];
-  sprite.name = name;
   sprite.position = location;
-  SKAction *action = [SKAction rotateByAngle:M_PI duration:40];
-  [sprite runAction:[SKAction repeatActionForever:action]];
-  sprite.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:sprite.size];
-  sprite.physicsBody.categoryBitMask = critterCategory;
-  sprite.physicsBody.friction = 0.2;
-  sprite.physicsBody.linearDamping = 0.2;
-  sprite.physicsBody.restitution = 0.8;
   [self addChild:sprite];
-//  [sprite.physicsBody applyImpulse:CGVectorMake(25, 5)];
+  [self runAction:[SKAction playSoundFileNamed:sprite.birthSoundFileName waitForCompletion:NO]];
+  
+  return sprite;
 }
 
 - (void)critter:(SKSpriteNode *)critter1 didCollideWithCritter:(SKSpriteNode *)critter2
@@ -124,6 +105,17 @@ static const uint32_t critterCategory  =  0x1 << 1;
 //  CGSize critter2Size = critter2.size;
 //  newSize = CGSizeMake(critter2Size.width * 1.5, critter2Size.height * 1.5);
 //  critter2.size = newSize;
+}
+
+- (void)critter:(CritterSpriteNode *)critter didCollideWithVirus:(SKSpriteNode *)virus
+{
+  [self runAction:[SKAction playSoundFileNamed:@"eaten.mp3" waitForCompletion:NO]];
+  [critter removeFromParent];
+  
+  __weak typeof(self) weakSelf = self;
+  dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+    weakSelf.mySprite = [weakSelf addPeerSpriteWithName:critter.name imageName:critter.imageName];
+  });
 }
 
 - (void)removeSpriteNamed:(NSString *)name
@@ -149,7 +141,13 @@ static const uint32_t critterCategory  =  0x1 << 1;
     secondBody = contact.bodyA;
   }
   
-  [self critter:(SKSpriteNode *)firstBody.node didCollideWithCritter:(SKSpriteNode *)secondBody.node];
+  if ((firstBody.categoryBitMask & critterCategory) != 0 && (secondBody.categoryBitMask & critterCategory) != 0) {
+    [self critter:(SKSpriteNode *)firstBody.node didCollideWithCritter:(SKSpriteNode *)secondBody.node];
+  }
+  else if ((firstBody.categoryBitMask & critterCategory) != 0 && (secondBody.categoryBitMask & virusCategory) != 0) {
+    [self critter:(CritterSpriteNode *)firstBody.node didCollideWithVirus:(SKSpriteNode *)secondBody.node];
+  }
+
 }
 
 #pragma mark - SKScene

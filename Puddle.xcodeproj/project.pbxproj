@@ -29,6 +29,9 @@
 		DE61664918E683EF003D71DE /* PuddleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61664818E683EF003D71DE /* PuddleTests.m */; };
 		DE61665418E685A8003D71DE /* SessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61665318E685A8003D71DE /* SessionController.m */; };
 		DEC2C3F618E7A0AA00864AC3 /* appear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */; };
+		DEC2C3F918E7BA0300864AC3 /* eaten.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */; };
+		DEC2C3FC18E7CDDA00864AC3 /* CritterSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC2C3FB18E7CDDA00864AC3 /* CritterSpriteNode.m */; };
+		DEC2C3FF18E7D09700864AC3 /* VirusSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC2C3FE18E7D09700864AC3 /* VirusSpriteNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,11 @@
 		DE61665218E685A8003D71DE /* SessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionController.h; sourceTree = "<group>"; };
 		DE61665318E685A8003D71DE /* SessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionController.m; sourceTree = "<group>"; };
 		DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = appear.mp3; sourceTree = "<group>"; };
+		DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = eaten.mp3; sourceTree = "<group>"; };
+		DEC2C3FA18E7CDDA00864AC3 /* CritterSpriteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CritterSpriteNode.h; sourceTree = "<group>"; };
+		DEC2C3FB18E7CDDA00864AC3 /* CritterSpriteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CritterSpriteNode.m; sourceTree = "<group>"; };
+		DEC2C3FD18E7D09700864AC3 /* VirusSpriteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirusSpriteNode.h; sourceTree = "<group>"; };
+		DEC2C3FE18E7D09700864AC3 /* VirusSpriteNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VirusSpriteNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,6 +145,9 @@
 				DE61662518E683EF003D71DE /* AppDelegate.m */,
 				DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */,
 				DE46434E18E75D11006118C2 /* contact.mp3 */,
+				DEC2C3FA18E7CDDA00864AC3 /* CritterSpriteNode.h */,
+				DEC2C3FB18E7CDDA00864AC3 /* CritterSpriteNode.m */,
+				DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */,
 				DE46434918E7552D006118C2 /* Globals.h */,
 				DE46434A18E7552D006118C2 /* Globals.m */,
 				DE61663518E683EF003D71DE /* Images.xcassets */,
@@ -150,6 +161,8 @@
 				DE61661C18E683EF003D71DE /* Supporting Files */,
 				DE61662D18E683EF003D71DE /* ViewController.h */,
 				DE61662E18E683EF003D71DE /* ViewController.m */,
+				DEC2C3FD18E7D09700864AC3 /* VirusSpriteNode.h */,
+				DEC2C3FE18E7D09700864AC3 /* VirusSpriteNode.m */,
 			);
 			path = Puddle;
 			sourceTree = "<group>";
@@ -263,6 +276,7 @@
 				DE61663618E683EF003D71DE /* Images.xcassets in Resources */,
 				DEC2C3F618E7A0AA00864AC3 /* appear.mp3 in Resources */,
 				DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */,
+				DEC2C3F918E7BA0300864AC3 /* eaten.mp3 in Resources */,
 				DE46434F18E75D11006118C2 /* contact.mp3 in Resources */,
 				DE61662918E683EF003D71DE /* Main_iPhone.storyboard in Resources */,
 				DE61662018E683EF003D71DE /* InfoPlist.strings in Resources */,
@@ -286,9 +300,11 @@
 			files = (
 				DE61663218E683EF003D71DE /* MyScene.m in Sources */,
 				DE61662F18E683EF003D71DE /* ViewController.m in Sources */,
+				DEC2C3FF18E7D09700864AC3 /* VirusSpriteNode.m in Sources */,
 				DE61662618E683EF003D71DE /* AppDelegate.m in Sources */,
 				DE61665418E685A8003D71DE /* SessionController.m in Sources */,
 				DE46434B18E7552D006118C2 /* Globals.m in Sources */,
+				DEC2C3FC18E7CDDA00864AC3 /* CritterSpriteNode.m in Sources */,
 				DE61662218E683EF003D71DE /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

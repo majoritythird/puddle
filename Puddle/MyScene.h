@@ -12,7 +12,7 @@
 
 @property(nonatomic,copy) NSString *critterName;
 
-- (void)addSpriteNamed:(NSString *)name withImageNamed:(NSString *)imageName;
+- (SKSpriteNode *)addPeerSpriteWithName:(NSString *)name imageName:(NSString *)imageName;
 - (void)removeSpriteNamed:(NSString *)name;
 
 @end

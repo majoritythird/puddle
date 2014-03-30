@@ -145,7 +145,7 @@
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
   NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-  [self.scene addSpriteNamed:peerID.displayName withImageNamed:critterName];
+  [self.scene addPeerSpriteWithName:peerID.displayName imageName:critterName];
 }
 
 // MCSession delegate callback when we start to receive a resource from a peer in a given session
