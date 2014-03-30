@@ -80,6 +80,14 @@
 
 - (SKSpriteNode *)addPeerSpriteWithName:(NSString *)name imageName:(NSString *)imageName
 {
+  SKNode *existingNode = [self.scene.children bk_match:^BOOL(SKNode *node) {
+    return (node.name == name);
+  }];
+  
+  if (existingNode != nil) {
+    return (SKSpriteNode *)existingNode;
+  }
+  
   CritterSpriteNode *sprite = [[CritterSpriteNode alloc] initWithName:name imageName:imageName];
   CGPoint location = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame));
   sprite.position = location;
