@@ -129,6 +129,7 @@
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
       NSString *critterName = [defaults objectForKey:kCritterNameKey];
       NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
+      NSLog(@"%@ sending data[%@] to %@", self.peerID.displayName, critterName, session.connectedPeers);
       [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
     }
       
@@ -145,6 +146,7 @@
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
   NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+  NSLog(@"%@ received data[%@] from %@", self.peerID.displayName, critterName, peerID.displayName);
   [self.scene addPeerSpriteWithName:peerID.displayName imageName:critterName];
 }
 
