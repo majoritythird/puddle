@@ -42,10 +42,10 @@
     _mySprite = [self addPeerSpriteWithName:@"me" imageName:self.critterName];
     
     SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
+    wallBody.categoryBitMask = wallCategory;
+    wallBody.friction = 0.2;
+    wallBody.restitution = 0.2;
     self.physicsBody = wallBody;
-    self.physicsBody.categoryBitMask = wallCategory;
-    self.physicsBody.friction = 0.2;
-    self.physicsBody.restitution = 0.2;
 
     VirusSpriteNode *virus = [VirusSpriteNode spriteNodeWithImageNamed:@"Virus"];
     virus.position = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame) + 100);
