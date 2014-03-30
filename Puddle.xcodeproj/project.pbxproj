@@ -28,6 +28,7 @@
 		DE61664718E683EF003D71DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DE61664518E683EF003D71DE /* InfoPlist.strings */; };
 		DE61664918E683EF003D71DE /* PuddleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61664818E683EF003D71DE /* PuddleTests.m */; };
 		DE61665418E685A8003D71DE /* SessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61665318E685A8003D71DE /* SessionController.m */; };
+		DEC2C3F618E7A0AA00864AC3 /* appear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		DE61664818E683EF003D71DE /* PuddleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PuddleTests.m; sourceTree = "<group>"; };
 		DE61665218E685A8003D71DE /* SessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionController.h; sourceTree = "<group>"; };
 		DE61665318E685A8003D71DE /* SessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionController.m; sourceTree = "<group>"; };
+		DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = appear.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,9 +133,10 @@
 		DE61661B18E683EF003D71DE /* Puddle */ = {
 			isa = PBXGroup;
 			children = (
-				DE46434E18E75D11006118C2 /* contact.mp3 */,
 				DE61662418E683EF003D71DE /* AppDelegate.h */,
 				DE61662518E683EF003D71DE /* AppDelegate.m */,
+				DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */,
+				DE46434E18E75D11006118C2 /* contact.mp3 */,
 				DE46434918E7552D006118C2 /* Globals.h */,
 				DE46434A18E7552D006118C2 /* Globals.m */,
 				DE61663518E683EF003D71DE /* Images.xcassets */,
@@ -258,6 +261,7 @@
 			files = (
 				DE61663418E683EF003D71DE /* Spaceship.png in Resources */,
 				DE61663618E683EF003D71DE /* Images.xcassets in Resources */,
+				DEC2C3F618E7A0AA00864AC3 /* appear.mp3 in Resources */,
 				DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */,
 				DE46434F18E75D11006118C2 /* contact.mp3 in Resources */,
 				DE61662918E683EF003D71DE /* Main_iPhone.storyboard in Resources */,
