@@ -44,7 +44,6 @@
     SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     wallBody.categoryBitMask = wallCategory;
     wallBody.friction = 0.2;
-    wallBody.restitution = 0.2;
     self.physicsBody = wallBody;
 
     VirusSpriteNode *virus = [VirusSpriteNode spriteNodeWithImageNamed:@"Virus"];
