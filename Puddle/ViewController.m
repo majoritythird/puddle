@@ -13,6 +13,7 @@
 @interface ViewController ()
 
 @property(nonatomic,strong) SessionController *sessionController;
+@property(nonatomic,strong) PuddleScene *puddleScene;
 
 @end
 
@@ -30,34 +31,30 @@
 {
   self = [super initWithCoder:aDecoder];
   if (self) {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spinItUp:) name:UIApplicationDidBecomeActiveNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(spinItDown:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startPeerServices:) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopPeerServices:) name:UIApplicationDidEnterBackgroundNotification object:nil];
   }
   return self;
 }
 
 #pragma mark - Methods
 
-- (void)spinItDown:(id)notification
+- (void)startPeerServices:(id)notification
 {
-  [self.sessionController shutDown];
+  if (self.puddleScene != nil && self.sessionController == nil) {
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+      weakSelf.sessionController = [[SessionController alloc] initWithScene:weakSelf.puddleScene];
+      [weakSelf.sessionController startServices];
+      [weakSelf.puddleScene removeAllOtherCritters];
+    });
+  }
 }
 
-- (void)spinItUp:(id)notification
+- (void)stopPeerServices:(id)notification
 {
-  // Configure the view.
-  SKView *skView = (SKView *)self.view;
-  skView.showsFPS = YES;
-  skView.showsNodeCount = YES;
-  
-  // Create and configure the scene.
-  PuddleScene *scene = [PuddleScene sceneWithSize:skView.bounds.size];
-  scene.scaleMode = SKSceneScaleModeAspectFill;
-  
-  self.sessionController = [[SessionController alloc] initWithScene:scene];
-  
-  // Present the scene.
-  [skView presentScene:scene];
+  [self.sessionController stopServices];
+  self.sessionController = nil;
 }
 
 #pragma mark - UIViewController
@@ -78,6 +75,23 @@
     } else {
         return UIInterfaceOrientationMaskAll;
     }
+}
+
+- (void)viewDidLoad
+{
+  // Configure the view.
+  SKView *skView = (SKView *)self.view;
+  skView.showsFPS = YES;
+  skView.showsNodeCount = YES;
+  
+  // Create and configure the scene.
+  self.puddleScene = [PuddleScene sceneWithSize:skView.bounds.size];
+  self.puddleScene.scaleMode = SKSceneScaleModeAspectFill;
+  
+  [self startPeerServices:nil];
+
+  // Present the scene.
+  [skView presentScene:self.puddleScene];
 }
 
 @end

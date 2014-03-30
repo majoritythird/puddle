@@ -35,34 +35,41 @@
   self = [super init];
   if (self) {
     _scene = scene;
-    [self startServices:nil];
+    NSString *deviceName = [UIDevice currentDevice].name;
+    _peerID = [[MCPeerID alloc] initWithDisplayName:deviceName];
+    _session = [[MCSession alloc] initWithPeer:_peerID];
+    NSLog(@"[%@] created session [%p]", _peerID.displayName, &_session);
+    _session.delegate = self;
+    _advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:_peerID discoveryInfo:nil serviceType:@"mt-puddle"];
+    _advertiser.delegate = self;
+    _browser = [[MCNearbyServiceBrowser alloc] initWithPeer:_peerID serviceType:@"mt-puddle"];
+    _browser.delegate = self;
   }
   return self;
 }
 
 #pragma mark - Methods
 
-- (void)shutDown
+- (NSString *)connectedPeersStringForSession:(MCSession *)session
+{
+  NSArray *peerDisplayNames = [session.connectedPeers bk_map:^id(MCPeerID *peer) {
+    return peer.displayName;
+  }];
+  
+  return [peerDisplayNames componentsJoinedByString:@", "];
+}
+
+- (void)startServices
+{
+  [self.advertiser startAdvertisingPeer];
+  [self.browser startBrowsingForPeers];
+}
+
+- (void)stopServices
 {
   [self.advertiser stopAdvertisingPeer];
   [self.browser stopBrowsingForPeers];
   [self.session disconnect];
-}
-
-- (void)startServices:(id)notification
-{
-  NSString *deviceName = [UIDevice currentDevice].name;
-  self.peerID = [[MCPeerID alloc] initWithDisplayName:deviceName];
-  self.session = [[MCSession alloc] initWithPeer:_peerID];
-  self.session.delegate = self;
-  self.advertiser = [[MCNearbyServiceAdvertiser alloc] initWithPeer:_peerID discoveryInfo:nil serviceType:@"mt-puddle"];
-  self.advertiser.delegate = self;
-  
-  self.browser = [[MCNearbyServiceBrowser alloc] initWithPeer:_peerID serviceType:@"mt-puddle"];
-  self.browser.delegate = self;
-  
-  [self.advertiser startAdvertisingPeer];
-  [self.browser startBrowsingForPeers];
 }
 
 - (NSString *)stringForPeerConnectionState:(MCSessionState)state
@@ -79,32 +86,6 @@
   }
 }
 
-#pragma mark - MCNearbyServiceBrowserDelegate
-
-- (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
-{
-  NSLog(@"browser failure");
-}
-
-- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
-{
-  NSLog(@"%@ browser found peer %@", self.peerID.displayName, peerID.displayName);
-  BOOL shouldInvite = ([self.peerID.displayName compare:peerID.displayName]==NSOrderedDescending);
-  
-  if (shouldInvite) {
-    NSLog(@"Inviting");
-    [browser invitePeer:peerID toSession:self.session withContext:nil timeout:10];
-  }
-  else {
-    NSLog(@"Not inviting");
-  }
-}
-
-- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
-{
-  NSLog(@"%@ browser lost peer %@", self.peerID.displayName, peerID.displayName);
-}
-
 #pragma mark - MCNearbyServiceAdvertiserDelegate
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didNotStartAdvertisingPeer:(NSError *)error
@@ -114,40 +95,74 @@
 
 - (void)advertiser:(MCNearbyServiceAdvertiser *)advertiser didReceiveInvitationFromPeer:(MCPeerID *)peerID withContext:(NSData *)context invitationHandler:(void (^)(BOOL, MCSession *))invitationHandler
 {
-  NSLog(@"Peer %@ accepting invitation from %@", self.peerID.displayName, peerID.displayName);
+  NSLog(@"Advertiser: [%@] accepting invitation from [%@] with session [%p]", self.peerID.displayName, peerID.displayName, &_session);
   invitationHandler(YES, self.session);
+}
+
+#pragma mark - MCNearbyServiceBrowserDelegate
+
+- (void)browser:(MCNearbyServiceBrowser *)browser didNotStartBrowsingForPeers:(NSError *)error
+{
+  NSLog(@"browser failure");
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser foundPeer:(MCPeerID *)peerID withDiscoveryInfo:(NSDictionary *)info
+{
+  BOOL shouldInvite = ([self.peerID.displayName compare:peerID.displayName]==NSOrderedDescending);
+  
+  if (shouldInvite) {
+    [browser invitePeer:peerID toSession:self.session withContext:nil timeout:10];
+  }
+  
+  NSLog(@"Browser: [%@] found [%@] – inviting to session [%p]: %@", self.peerID.displayName, peerID.displayName, &_session, @(shouldInvite));
+}
+
+- (void)browser:(MCNearbyServiceBrowser *)browser lostPeer:(MCPeerID *)peerID
+{
+  NSLog(@"%@ browser lost peer %@", self.peerID.displayName, peerID.displayName);
 }
 
 #pragma mark - MCSessionDelegate
 
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
-  NSLog(@"Peer [%@] changed state to %@", peerID.displayName, [self stringForPeerConnectionState:state]);
-  
-  switch (state) {
-    case MCSessionStateConnected: {
-      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-      NSString *critterName = [defaults objectForKey:kCritterNameKey];
-      NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
-      NSLog(@"%@ sending data[%@] to %@", self.peerID.displayName, critterName, session.connectedPeers);
-      [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
+//  __weak typeof(self) weakSelf = self;
+//  dispatch_async(dispatch_get_main_queue(), ^{
+    NSLog(@"Session [%p] reports [%@] changed state to %@", &session, peerID.displayName, [self stringForPeerConnectionState:state]);
+    
+    switch (state) {
+      case MCSessionStateConnected: {
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *critterName = [defaults objectForKey:kCritterNameKey];
+        NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
+        NSLog(@"%@ sending data[%@] to %@ using session [%p]", self.peerID.displayName, critterName, [self connectedPeersStringForSession:session], &session);
+        [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
+      }
+        
+      case MCSessionStateConnecting:
+        return;
+        
+      case MCSessionStateNotConnected: {
+        [self.scene removeSpriteNamed:peerID.displayName];
+      }
     }
-      
-    case MCSessionStateConnecting:
-      return;
-      
-    case MCSessionStateNotConnected: {
-      [self.scene removeSpriteNamed:peerID.displayName];
-    }
-  }
+//  });
+}
+
+- (void) session:(MCSession *)session didReceiveCertificate:(NSArray *)certificate fromPeer:(MCPeerID *)peerID certificateHandler:(void (^)(BOOL accept))certificateHandler
+{
+  certificateHandler(YES);
 }
 
 // MCSession Delegate callback when receiving data from a peer in a given session
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
-  NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-  NSLog(@"%@ received data[%@] from %@", self.peerID.displayName, critterName, peerID.displayName);
-  [self.scene addPeerSpriteWithName:peerID.displayName imageName:critterName];
+  __weak typeof(self) weakSelf = self;
+  dispatch_async(dispatch_get_main_queue(), ^{
+    NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@ received data[%@] from %@ on session [%p]", weakSelf.peerID.displayName, critterName, peerID.displayName, &session);
+    [weakSelf.scene addPeerSpriteWithName:peerID.displayName imageName:critterName];
+  });
 }
 
 // MCSession delegate callback when we start to receive a resource from a peer in a given session

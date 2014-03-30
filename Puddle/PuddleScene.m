@@ -126,6 +126,15 @@
   });
 }
 
+- (void)removeAllOtherCritters
+{
+  [self.scene.children bk_each:^(SKNode *node) {
+    if ([node isKindOfClass:[CritterSpriteNode class]] && ![node.name isEqualToString:@"me"]) {
+      [node removeFromParent];
+    }
+  }];
+}
+
 - (void)removeSpriteNamed:(NSString *)name
 {
   SKNode *sprite = [self childNodeWithName:name];

@@ -12,6 +12,7 @@
 @interface SessionController : NSObject
 
 - (instancetype)initWithScene:(PuddleScene *)scene;
-- (void)shutDown;
+- (void)startServices;
+- (void)stopServices;
 
 @end
