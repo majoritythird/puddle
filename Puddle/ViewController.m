@@ -62,6 +62,10 @@
 
 #pragma mark - UIViewController
 
+- (BOOL)prefersStatusBarHidden {
+  return YES;
+}
+
 - (BOOL)shouldAutorotate
 {
     return YES;
@@ -74,10 +78,6 @@
     } else {
         return UIInterfaceOrientationMaskAll;
     }
-}
-
-- (BOOL)prefersStatusBarHidden {
-  return YES;
 }
 
 @end
