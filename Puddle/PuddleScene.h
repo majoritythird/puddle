@@ -8,7 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface MyScene : SKScene
+@interface PuddleScene : SKScene
 
 @property(nonatomic,copy) NSString *critterName;
 

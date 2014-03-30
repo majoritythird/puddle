@@ -7,11 +7,11 @@
 //
 
 #import <CoreMotion/CoreMotion.h>
-#import "MyScene.h"
+#import "PuddleScene.h"
 #import "CritterSpriteNode.h"
 #import "VirusSpriteNode.h"
 
-@interface MyScene ()
+@interface PuddleScene ()
 <SKPhysicsContactDelegate>
 
 @property(nonatomic,strong) NSDate *lastContactSoundPlayedAt;
@@ -21,7 +21,7 @@
 
 @end
 
-@implementation MyScene
+@implementation PuddleScene
 
 #pragma mark - Lifecycle
 

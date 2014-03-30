@@ -15,7 +15,7 @@
 @property(nonatomic,strong) MCNearbyServiceBrowser *browser;
 @property(nonatomic,strong) MCPeerID *peerID;
 @property(nonatomic,strong) MCSession *session;
-@property(nonatomic,strong) MyScene *scene;
+@property(nonatomic,strong) PuddleScene *scene;
 
 @end
 

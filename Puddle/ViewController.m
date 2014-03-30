@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "MyScene.h"
+#import "PuddleScene.h"
 #import "SessionController.h"
 
 @interface ViewController ()
@@ -51,7 +51,7 @@
   skView.showsNodeCount = YES;
   
   // Create and configure the scene.
-  MyScene *scene = [MyScene sceneWithSize:skView.bounds.size];
+  PuddleScene *scene = [PuddleScene sceneWithSize:skView.bounds.size];
   scene.scaleMode = SKSceneScaleModeAspectFill;
   
   self.sessionController = [[SessionController alloc] initWithScene:scene];

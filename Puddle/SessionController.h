@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "MyScene.h"
+#import "PuddleScene.h"
 
 @interface SessionController : NSObject
 
-- (instancetype)initWithScene:(MyScene *)scene;
+- (instancetype)initWithScene:(PuddleScene *)scene;
 - (void)shutDown;
 
 @end

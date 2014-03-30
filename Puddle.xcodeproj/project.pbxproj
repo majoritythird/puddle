@@ -19,7 +19,7 @@
 		DE61662918E683EF003D71DE /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE61662718E683EF003D71DE /* Main_iPhone.storyboard */; };
 		DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DE61662A18E683EF003D71DE /* Main_iPad.storyboard */; };
 		DE61662F18E683EF003D71DE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61662E18E683EF003D71DE /* ViewController.m */; };
-		DE61663218E683EF003D71DE /* MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61663118E683EF003D71DE /* MyScene.m */; };
+		DE61663218E683EF003D71DE /* PuddleScene.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61663118E683EF003D71DE /* PuddleScene.m */; };
 		DE61663418E683EF003D71DE /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = DE61663318E683EF003D71DE /* Spaceship.png */; };
 		DE61663618E683EF003D71DE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE61663518E683EF003D71DE /* Images.xcassets */; };
 		DE61663D18E683EF003D71DE /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE61663C18E683EF003D71DE /* XCTest.framework */; };
@@ -63,8 +63,8 @@
 		DE61662B18E683EF003D71DE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		DE61662D18E683EF003D71DE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		DE61662E18E683EF003D71DE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		DE61663018E683EF003D71DE /* MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyScene.h; sourceTree = "<group>"; };
-		DE61663118E683EF003D71DE /* MyScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyScene.m; sourceTree = "<group>"; };
+		DE61663018E683EF003D71DE /* PuddleScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PuddleScene.h; sourceTree = "<group>"; };
+		DE61663118E683EF003D71DE /* PuddleScene.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PuddleScene.m; sourceTree = "<group>"; };
 		DE61663318E683EF003D71DE /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		DE61663518E683EF003D71DE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		DE61663B18E683EF003D71DE /* PuddleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuddleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -153,8 +153,8 @@
 				DE61663518E683EF003D71DE /* Images.xcassets */,
 				DE61662A18E683EF003D71DE /* Main_iPad.storyboard */,
 				DE61662718E683EF003D71DE /* Main_iPhone.storyboard */,
-				DE61663018E683EF003D71DE /* MyScene.h */,
-				DE61663118E683EF003D71DE /* MyScene.m */,
+				DE61663018E683EF003D71DE /* PuddleScene.h */,
+				DE61663118E683EF003D71DE /* PuddleScene.m */,
 				DE61665218E685A8003D71DE /* SessionController.h */,
 				DE61665318E685A8003D71DE /* SessionController.m */,
 				DE61663318E683EF003D71DE /* Spaceship.png */,
@@ -298,7 +298,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DE61663218E683EF003D71DE /* MyScene.m in Sources */,
+				DE61663218E683EF003D71DE /* PuddleScene.m in Sources */,
 				DE61662F18E683EF003D71DE /* ViewController.m in Sources */,
 				DEC2C3FF18E7D09700864AC3 /* VirusSpriteNode.m in Sources */,
 				DE61662618E683EF003D71DE /* AppDelegate.m in Sources */,
