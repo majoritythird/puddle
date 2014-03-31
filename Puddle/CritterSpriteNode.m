@@ -25,9 +25,9 @@
     self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
     self.physicsBody.categoryBitMask = critterCategory;
     self.physicsBody.contactTestBitMask = critterCategory;
-    self.physicsBody.friction = 0.2;
-    self.physicsBody.linearDamping = 0.2;
-    self.physicsBody.restitution = 0.8;
+    self.physicsBody.friction = 0.2f;
+    self.physicsBody.linearDamping = 0.2f;
+    self.physicsBody.restitution = 0.8f;
   }
   return self;
 }

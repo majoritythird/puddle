@@ -31,7 +31,7 @@
     
     SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     wallBody.categoryBitMask = wallCategory;
-    wallBody.friction = 0.2;
+    wallBody.friction = 0.2f;
     self.physicsBody = wallBody;
 
     VirusSpriteNode *virus = [VirusSpriteNode spriteNodeWithImageNamed:@"Virus"];
@@ -51,13 +51,13 @@
            // Multiply by the inverse of the reference attitude so motion is relative to the start attitude.
            [attitude multiplyByInverseOfAttitude:_referenceAttitude];
            for (SKSpriteNode *child in self.scene.children) {
-             [child.physicsBody applyImpulse:CGVectorMake(attitude.roll * 0.2, -attitude.pitch * 0.2)];
+             [child.physicsBody applyImpulse:CGVectorMake(attitude.roll * 0.2f, -attitude.pitch * 0.2f)];
            }
          }
        }];
     }
     
-    self.physicsWorld.gravity = CGVectorMake(0.0,0.0);
+    self.physicsWorld.gravity = CGVectorMake(0.0f,0.0f);
     self.physicsWorld.contactDelegate = self;
   }
   return self;
@@ -146,7 +146,7 @@
 - (void)spinSpriteForPeerNamed:(NSString *)name
 {
   SKNode *sprite = [self childNodeWithName:name];
-  SKAction *rotateAction = [SKAction rotateByAngle:M_PI duration:0.5];
+  SKAction *rotateAction = [SKAction rotateByAngle:M_PI duration:0.5f];
   [sprite runAction:[SKAction repeatAction:rotateAction count:5]];
 }
 
