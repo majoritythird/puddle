@@ -16,7 +16,6 @@
 
 @property(nonatomic,strong) NSDate *lastContactSoundPlayedAt;
 @property(nonatomic,strong) CMMotionManager *motionManager;
-@property(nonatomic,strong) SKSpriteNode *mySprite;
 @property(nonatomic,strong) CMAttitude *referenceAttitude;
 
 @end
@@ -39,7 +38,7 @@
       [defaults synchronize];
     }
     
-    _mySprite = [self addPeerSpriteWithName:@"me" imageName:self.critterName];
+    [self addPeerSpriteWithName:@"me" imageName:self.critterName];
     
     SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     wallBody.categoryBitMask = wallCategory;
@@ -116,7 +115,7 @@
   __weak typeof(self) weakSelf = self;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
     if ([weakSelf.sessionController isPeerStillConnectedWithName:critter.name] || [weakSelf isCritterMe:critter]) {
-      weakSelf.mySprite = [weakSelf addPeerSpriteWithName:critter.name imageName:critter.imageName];
+      [weakSelf addPeerSpriteWithName:critter.name imageName:critter.imageName];
     }
   });
 }
