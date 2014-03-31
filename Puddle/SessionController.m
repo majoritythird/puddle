@@ -135,8 +135,6 @@
 
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
-//  __weak typeof(self) weakSelf = self;
-//  dispatch_async(dispatch_get_main_queue(), ^{
     NSLog(@"Session [%p] reports [%@] changed state to %@", &session, peerID.displayName, [self stringForPeerConnectionState:state]);
     
     switch (state) {
@@ -156,7 +154,6 @@
         [self.connectedPeers removeObject:peerID];
       }
     }
-//  });
 }
 
 - (void) session:(MCSession *)session didReceiveCertificate:(NSArray *)certificate fromPeer:(MCPeerID *)peerID certificateHandler:(void (^)(BOOL accept))certificateHandler

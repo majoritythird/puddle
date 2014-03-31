@@ -106,13 +106,6 @@
     [self runAction:[SKAction playSoundFileNamed:@"contact.mp3" waitForCompletion:NO]];
     self.lastContactSoundPlayedAt = [NSDate date];
   }
-
-//  CGSize critter1Size = critter1.size;
-//  CGSize newSize = CGSizeMake(critter1Size.width * 1.5, critter1Size.height * 1.5);
-//  critter1.size = newSize;
-//  CGSize critter2Size = critter2.size;
-//  newSize = CGSizeMake(critter2Size.width * 1.5, critter2Size.height * 1.5);
-//  critter2.size = newSize;
 }
 
 - (void)critter:(CritterSpriteNode *)critter didCollideWithVirus:(SKSpriteNode *)virus
