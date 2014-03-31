@@ -12,12 +12,14 @@
 
 #pragma mark - Lifecycle
 
-- (instancetype)initWithName:(NSString *)name imageName:(NSString *)imageName
+- (instancetype)initWithPeer:(MCPeerID *)peer imageName:(NSString *)imageName isMe:(BOOL)isMe
 {
   self = [super initWithImageNamed:imageName];
   if (self) {
     _imageName = [imageName copy];
-    self.name = [name copy];
+    _peerID = peer;
+    _isMe = isMe;
+    self.name = [peer.displayName copy];
     SKAction *rotateAction = [SKAction rotateByAngle:M_PI duration:40];
     [self runAction:[SKAction repeatActionForever:rotateAction]];
     self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];

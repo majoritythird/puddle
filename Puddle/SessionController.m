@@ -39,6 +39,7 @@
     _scene = scene;
     NSString *deviceName = [UIDevice currentDevice].name;
     _peerID = [[MCPeerID alloc] initWithDisplayName:deviceName];
+    [_scene addLocalSpriteForPeer:_peerID];
     _session = [[MCSession alloc] initWithPeer:_peerID];
     NSLog(@"[%@] created session [%p]", _peerID.displayName, &_session);
     _session.delegate = self;
@@ -168,7 +169,7 @@
   dispatch_async(dispatch_get_main_queue(), ^{
     NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@ received data[%@] from %@ on session [%p]", weakSelf.peerID.displayName, critterName, peerID.displayName, &session);
-    [weakSelf.scene addPeerSpriteWithName:peerID.displayName imageName:critterName];
+    [weakSelf.scene addSpriteForPeer:peerID imageName:critterName isME:NO];
     [self.connectedPeers addObject:peerID];
   });
 }

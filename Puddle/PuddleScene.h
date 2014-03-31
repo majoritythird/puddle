@@ -13,10 +13,10 @@
 
 @interface PuddleScene : SKScene
 
-@property(nonatomic,copy) NSString *critterName;
 @property(nonatomic,strong) SessionController *sessionController;
 
-- (SKSpriteNode *)addPeerSpriteWithName:(NSString *)name imageName:(NSString *)imageName;
+- (SKSpriteNode *)addLocalSpriteForPeer:(MCPeerID *)peerID;
+- (SKSpriteNode *)addSpriteForPeer:(MCPeerID *)peerID imageName:(NSString *)imageName isME:(BOOL)isMe;
 - (void)removeAllOtherCritters;
 - (void)removeSpriteNamed:(NSString *)name;
 

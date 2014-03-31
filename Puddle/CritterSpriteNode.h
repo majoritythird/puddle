@@ -12,7 +12,9 @@
 
 @property(nonatomic,copy) NSString *birthSoundFileName;
 @property(nonatomic,copy) NSString *imageName;
+@property(nonatomic,assign) BOOL isMe;
+@property(nonatomic,strong) MCPeerID *peerID;
 
-- (instancetype)initWithName:(NSString *)name imageName:(NSString *)imageName;
+- (instancetype)initWithPeer:(MCPeerID *)peer imageName:(NSString *)imageName isMe:(BOOL)isMe;
 
 @end

@@ -89,7 +89,7 @@
   self.puddleScene = [PuddleScene sceneWithSize:skView.bounds.size];
   self.puddleScene.scaleMode = SKSceneScaleModeAspectFill;
   
-  [self startPeerServices:nil];
+//  [self startPeerServices:nil];
 
   // Present the scene.
   [skView presentScene:self.puddleScene];

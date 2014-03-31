@@ -28,17 +28,6 @@
   if (self = [super initWithSize:size]) {
     
     self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.critterName = [defaults objectForKey:kCritterNameKey];
-    if (self.critterName == nil) {
-      NSUInteger critterImageIndex = arc4random() % 2 + 1;
-      self.critterName = [NSString stringWithFormat:@"Critter%@", @(critterImageIndex)];
-      [defaults setObject:self.critterName forKey:kCritterNameKey];
-      [defaults synchronize];
-    }
-    
-    [self addPeerSpriteWithName:@"me" imageName:self.critterName];
     
     SKPhysicsBody *wallBody = [SKPhysicsBody bodyWithEdgeLoopFromRect:self.frame];
     wallBody.categoryBitMask = wallCategory;
@@ -76,17 +65,32 @@
 
 #pragma mark - Methods
 
-- (SKSpriteNode *)addPeerSpriteWithName:(NSString *)name imageName:(NSString *)imageName
+- (SKSpriteNode *)addLocalSpriteForPeer:(MCPeerID *)peerID
 {
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSString *critterName = [defaults objectForKey:kCritterNameKey];
+  if (critterName == nil) {
+    NSUInteger critterImageIndex = arc4random() % 2 + 1;
+    critterName = [NSString stringWithFormat:@"Critter%@", @(critterImageIndex)];
+    [defaults setObject:critterName forKey:kCritterNameKey];
+    [defaults synchronize];
+  }
+  
+  return [self addSpriteForPeer:peerID imageName:critterName isME:YES];
+}
+
+- (SKSpriteNode *)addSpriteForPeer:(MCPeerID *)peerID imageName:(NSString *)imageName isME:(BOOL)isMe
+{
+  NSString *name = peerID.displayName;
   SKNode *existingNode = [self.scene.children bk_match:^BOOL(SKNode *node) {
-    return (node.name == name);
+    return ([node.name isEqualToString:name]);
   }];
   
   if (existingNode != nil) {
     return (SKSpriteNode *)existingNode;
   }
   
-  CritterSpriteNode *sprite = [[CritterSpriteNode alloc] initWithName:name imageName:imageName];
+  CritterSpriteNode *sprite = [[CritterSpriteNode alloc] initWithPeer:peerID imageName:imageName isMe:isMe];
   CGPoint location = CGPointMake(CGRectGetMidX(self.scene.frame), CGRectGetMidY(self.scene.frame));
   sprite.position = location;
   [self addChild:sprite];
@@ -114,22 +118,20 @@
   
   __weak typeof(self) weakSelf = self;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    if ([weakSelf.sessionController isPeerStillConnectedWithName:critter.name] || [weakSelf isCritterMe:critter]) {
-      [weakSelf addPeerSpriteWithName:critter.name imageName:critter.imageName];
+    if ([weakSelf.sessionController isPeerStillConnectedWithName:critter.name] || critter.isMe) {
+      [weakSelf addSpriteForPeer:critter.peerID imageName:critter.imageName isME:critter.isMe];
     }
   });
-}
-
-- (BOOL)isCritterMe:(CritterSpriteNode *)critter
-{
-  return ([critter.name isEqualToString:@"me"]);
 }
 
 - (void)removeAllOtherCritters
 {
   [self.scene.children bk_each:^(SKNode *node) {
-    if ([node isKindOfClass:[CritterSpriteNode class]] && ![node.name isEqualToString:@"me"]) {
-      [node removeFromParent];
+    if ([node isKindOfClass:[CritterSpriteNode class]]) {
+      CritterSpriteNode *critterNode = (CritterSpriteNode *)node;
+      if (critterNode.isMe == NO) {
+        [node removeFromParent];
+      }
     }
   }];
 }
