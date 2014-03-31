@@ -135,25 +135,25 @@
 
 - (void)session:(MCSession *)session peer:(MCPeerID *)peerID didChangeState:(MCSessionState)state
 {
-    NSLog(@"Session [%p] reports [%@] changed state to %@", &session, peerID.displayName, [self stringForPeerConnectionState:state]);
-    
-    switch (state) {
-      case MCSessionStateConnected: {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        NSString *critterName = [defaults objectForKey:kCritterNameKey];
-        NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
-        NSLog(@"%@ sending data[%@] to %@ using session [%p]", self.peerID.displayName, critterName, [self connectedPeersStringForSession:session], &session);
-        [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
-      }
-        
-      case MCSessionStateConnecting:
-        return;
-        
-      case MCSessionStateNotConnected: {
-        [self.scene removeSpriteNamed:peerID.displayName];
-        [self.connectedPeers removeObject:peerID];
-      }
+  NSLog(@"Session [%p] reports [%@] changed state to %@", &session, peerID.displayName, [self stringForPeerConnectionState:state]);
+  
+  switch (state) {
+    case MCSessionStateConnected: {
+      NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+      NSString *critterName = [defaults objectForKey:kCritterNameKey];
+      NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
+      NSLog(@"%@ sending data[%@] to %@ using session [%p]", self.peerID.displayName, critterName, [self connectedPeersStringForSession:session], &session);
+      [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
     }
+      
+    case MCSessionStateConnecting:
+      return;
+      
+    case MCSessionStateNotConnected: {
+      [self.scene removeSpriteNamed:peerID.displayName];
+      [self.connectedPeers removeObject:peerID];
+    }
+  }
 }
 
 - (void) session:(MCSession *)session didReceiveCertificate:(NSArray *)certificate fromPeer:(MCPeerID *)peerID certificateHandler:(void (^)(BOOL accept))certificateHandler
