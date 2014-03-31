@@ -47,6 +47,7 @@
       weakSelf.sessionController = [[SessionController alloc] initWithScene:weakSelf.puddleScene];
       [weakSelf.sessionController startServices];
       [weakSelf.puddleScene removeAllOtherCritters];
+      weakSelf.puddleScene.sessionController = weakSelf.sessionController;
     });
   }
 }

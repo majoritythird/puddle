@@ -9,9 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "PuddleScene.h"
 
+@class PuddleScene;
+
 @interface SessionController : NSObject
 
 - (instancetype)initWithScene:(PuddleScene *)scene;
+- (BOOL)isPeerStillConnectedWithName:(NSString *)name;
 - (void)startServices;
 - (void)stopServices;
 

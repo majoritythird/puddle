@@ -13,6 +13,7 @@
 
 @property(nonatomic,strong) MCNearbyServiceAdvertiser *advertiser;
 @property(nonatomic,strong) MCNearbyServiceBrowser *browser;
+@property(nonatomic,strong) NSMutableArray *connectedPeers;
 @property(nonatomic,strong) MCPeerID *peerID;
 @property(nonatomic,strong) MCSession *session;
 @property(nonatomic,strong) PuddleScene *scene;
@@ -34,6 +35,7 @@
 {
   self = [super init];
   if (self) {
+    _connectedPeers = [NSMutableArray array];
     _scene = scene;
     NSString *deviceName = [UIDevice currentDevice].name;
     _peerID = [[MCPeerID alloc] initWithDisplayName:deviceName];
@@ -57,6 +59,13 @@
   }];
   
   return [peerDisplayNames componentsJoinedByString:@", "];
+}
+
+- (BOOL)isPeerStillConnectedWithName:(NSString *)name
+{
+  return [self.connectedPeers bk_any:^BOOL(MCPeerID *peerID) {
+    return [peerID.displayName isEqualToString:name];
+  }];;
 }
 
 - (void)startServices
@@ -144,6 +153,7 @@
         
       case MCSessionStateNotConnected: {
         [self.scene removeSpriteNamed:peerID.displayName];
+        [self.connectedPeers removeObject:peerID];
       }
     }
 //  });
@@ -162,6 +172,7 @@
     NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@ received data[%@] from %@ on session [%p]", weakSelf.peerID.displayName, critterName, peerID.displayName, &session);
     [weakSelf.scene addPeerSpriteWithName:peerID.displayName imageName:critterName];
+    [self.connectedPeers addObject:peerID];
   });
 }
 

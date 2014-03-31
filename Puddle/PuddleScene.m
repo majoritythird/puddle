@@ -29,7 +29,7 @@
   if (self = [super initWithSize:size]) {
     
     self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-    
+
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.critterName = [defaults objectForKey:kCritterNameKey];
     if (self.critterName == nil) {
@@ -122,8 +122,15 @@
   
   __weak typeof(self) weakSelf = self;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-    weakSelf.mySprite = [weakSelf addPeerSpriteWithName:critter.name imageName:critter.imageName];
+    if ([weakSelf.sessionController isPeerStillConnectedWithName:critter.name] || [weakSelf isCritterMe:critter]) {
+      weakSelf.mySprite = [weakSelf addPeerSpriteWithName:critter.name imageName:critter.imageName];
+    }
   });
+}
+
+- (BOOL)isCritterMe:(CritterSpriteNode *)critter
+{
+  return ([critter.name isEqualToString:@"me"]);
 }
 
 - (void)removeAllOtherCritters
