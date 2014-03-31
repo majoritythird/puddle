@@ -19,5 +19,6 @@
 - (SKSpriteNode *)addSpriteForPeer:(MCPeerID *)peerID imageName:(NSString *)imageName isME:(BOOL)isMe;
 - (void)removeAllOtherCritters;
 - (void)removeSpriteNamed:(NSString *)name;
+- (void)spinSpriteForPeerNamed:(NSString *)name;
 
 @end

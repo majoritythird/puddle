@@ -115,6 +115,7 @@
 {
   [self runAction:[SKAction playSoundFileNamed:@"eaten.mp3" waitForCompletion:NO]];
   [critter removeFromParent];
+  [self.sessionController peerEaten:critter.peerID];
   
   __weak typeof(self) weakSelf = self;
   dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
@@ -140,6 +141,13 @@
 {
   SKNode *sprite = [self childNodeWithName:name];
   [sprite removeFromParent];
+}
+
+- (void)spinSpriteForPeerNamed:(NSString *)name
+{
+  SKNode *sprite = [self childNodeWithName:name];
+  SKAction *rotateAction = [SKAction rotateByAngle:M_PI duration:0.5];
+  [sprite runAction:[SKAction repeatAction:rotateAction count:5]];
 }
 
 #pragma mark - SKPhysicsContactDelegate

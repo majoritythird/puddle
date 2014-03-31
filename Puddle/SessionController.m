@@ -69,6 +69,13 @@
   }];;
 }
 
+- (void)peerEaten:(MCPeerID *)peerID
+{
+  NSDictionary *eventDict = @{@"event" : @"eaten", @"peerName" : peerID.displayName};
+  NSData *eventData = [NSKeyedArchiver archivedDataWithRootObject:eventDict];
+  [self.session sendData:eventData toPeers:self.session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
+}
+
 - (void)startServices
 {
   [self.advertiser startAdvertisingPeer];
@@ -142,9 +149,10 @@
     case MCSessionStateConnected: {
       NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
       NSString *critterName = [defaults objectForKey:kCritterNameKey];
-      NSData *critterNameAsData = [critterName dataUsingEncoding:NSUTF8StringEncoding];
-      NSLog(@"%@ sending data[%@] to %@ using session [%p]", self.peerID.displayName, critterName, [self connectedPeersStringForSession:session], &session);
-      [session sendData:critterNameAsData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
+      NSDictionary *eventDict = @{@"event" : @"connected", @"peerName" : critterName};
+      NSData *eventData = [NSKeyedArchiver archivedDataWithRootObject:eventDict];
+      NSLog(@"%@ sending data[%@] to %@ using session [%p]", self.peerID.displayName, eventDict, [self connectedPeersStringForSession:session], &session);
+      [session sendData:eventData toPeers:session.connectedPeers withMode:MCSessionSendDataReliable error:nil];
     }
       
     case MCSessionStateConnecting:
@@ -165,12 +173,18 @@
 // MCSession Delegate callback when receiving data from a peer in a given session
 - (void)session:(MCSession *)session didReceiveData:(NSData *)data fromPeer:(MCPeerID *)peerID
 {
+  NSDictionary *eventDict = (NSDictionary *)[NSKeyedUnarchiver unarchiveObjectWithData:data];
   __weak typeof(self) weakSelf = self;
   dispatch_async(dispatch_get_main_queue(), ^{
-    NSString *critterName = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@ received data[%@] from %@ on session [%p]", weakSelf.peerID.displayName, critterName, peerID.displayName, &session);
-    [weakSelf.scene addSpriteForPeer:peerID imageName:critterName isME:NO];
-    [self.connectedPeers addObject:peerID];
+    if ([eventDict[@"event"] isEqualToString:@"connected"]) {
+      NSString *critterName = eventDict[@"peerName"];
+      NSLog(@"%@ received data[%@] from %@ on session [%p]", weakSelf.peerID.displayName, critterName, peerID.displayName, &session);
+      [weakSelf.scene addSpriteForPeer:peerID imageName:critterName isME:NO];
+      [weakSelf.connectedPeers addObject:peerID];
+    }
+    else if ([eventDict[@"event"] isEqualToString:@"eaten"]) {
+      [weakSelf.scene spinSpriteForPeerNamed:eventDict[@"peerName"]];
+    }
   });
 }
 

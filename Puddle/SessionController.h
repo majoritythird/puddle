@@ -15,6 +15,7 @@
 
 - (instancetype)initWithScene:(PuddleScene *)scene;
 - (BOOL)isPeerStillConnectedWithName:(NSString *)name;
+- (void)peerEaten:(MCPeerID *)peerID;
 - (void)startServices;
 - (void)stopServices;
 
