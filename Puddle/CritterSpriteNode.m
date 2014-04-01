@@ -14,14 +14,29 @@
 
 - (instancetype)initWithPeer:(MCPeerID *)peer imageName:(NSString *)imageName isMe:(BOOL)isMe
 {
-  self = [super initWithImageNamed:imageName];
+  SKTextureAtlas *atlas = [SKTextureAtlas atlasNamed:imageName];
+  SKTexture *texture = [atlas textureNamed:@"1.png"];
+  self = [super initWithTexture:texture];
   if (self) {
+    self.name = [peer.displayName copy];
     _imageName = [imageName copy];
     _peerID = peer;
     _isMe = isMe;
-    self.name = [peer.displayName copy];
+
+    SKTexture *f1 = [atlas textureNamed:@"1.png"];
+    SKTexture *f2 = [atlas textureNamed:@"2.png"];
+    SKTexture *f3 = [atlas textureNamed:@"3.png"];
+    SKTexture *f4 = [atlas textureNamed:@"4.png"];
+    SKTexture *f5 = [atlas textureNamed:@"5.png"];
+    SKTexture *f6 = [atlas textureNamed:@"6.png"];
+    NSArray *critterTextures = @[f1,f2,f3,f4,f5,f6];
+    
+    SKAction *spriteAnimationAction = [SKAction animateWithTextures:critterTextures timePerFrame:0.1];
+    [self runAction:[SKAction repeatActionForever:spriteAnimationAction]];
+    
     SKAction *rotateAction = [SKAction rotateByAngle:M_PI duration:40];
     [self runAction:[SKAction repeatActionForever:rotateAction]];
+
     self.physicsBody = [SKPhysicsBody bodyWithRectangleOfSize:self.size];
     self.physicsBody.categoryBitMask = critterCategory;
     self.physicsBody.contactTestBitMask = critterCategory;

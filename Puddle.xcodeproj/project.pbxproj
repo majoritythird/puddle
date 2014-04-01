@@ -28,6 +28,10 @@
 		DE61664718E683EF003D71DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DE61664518E683EF003D71DE /* InfoPlist.strings */; };
 		DE61664918E683EF003D71DE /* PuddleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61664818E683EF003D71DE /* PuddleTests.m */; };
 		DE61665418E685A8003D71DE /* SessionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE61665318E685A8003D71DE /* SessionController.m */; };
+		DE65FF6F18EA66CE00879D6B /* Critter1.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DE65FF6C18EA66CE00879D6B /* Critter1.atlas */; };
+		DE65FF7018EA66CE00879D6B /* Critter2.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DE65FF6D18EA66CE00879D6B /* Critter2.atlas */; };
+		DE65FF7118EA66CE00879D6B /* Critter3.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DE65FF6E18EA66CE00879D6B /* Critter3.atlas */; };
+		DE65FF7318EA68D900879D6B /* Virus.atlas in Resources */ = {isa = PBXBuildFile; fileRef = DE65FF7218EA68D900879D6B /* Virus.atlas */; };
 		DEC2C3F618E7A0AA00864AC3 /* appear.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */; };
 		DEC2C3F918E7BA0300864AC3 /* eaten.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */; };
 		DEC2C3FC18E7CDDA00864AC3 /* CritterSpriteNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DEC2C3FB18E7CDDA00864AC3 /* CritterSpriteNode.m */; };
@@ -75,6 +79,10 @@
 		DE61664818E683EF003D71DE /* PuddleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PuddleTests.m; sourceTree = "<group>"; };
 		DE61665218E685A8003D71DE /* SessionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionController.h; sourceTree = "<group>"; };
 		DE61665318E685A8003D71DE /* SessionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionController.m; sourceTree = "<group>"; };
+		DE65FF6C18EA66CE00879D6B /* Critter1.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Critter1.atlas; sourceTree = "<group>"; };
+		DE65FF6D18EA66CE00879D6B /* Critter2.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Critter2.atlas; sourceTree = "<group>"; };
+		DE65FF6E18EA66CE00879D6B /* Critter3.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Critter3.atlas; sourceTree = "<group>"; };
+		DE65FF7218EA68D900879D6B /* Virus.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = Virus.atlas; sourceTree = "<group>"; };
 		DEC2C3F418E7A0AA00864AC3 /* appear.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = appear.mp3; sourceTree = "<group>"; };
 		DEC2C3F818E7BA0300864AC3 /* eaten.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = eaten.mp3; sourceTree = "<group>"; };
 		DEC2C3FA18E7CDDA00864AC3 /* CritterSpriteNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CritterSpriteNode.h; sourceTree = "<group>"; };
@@ -147,6 +155,7 @@
 			children = (
 				DE61662418E683EF003D71DE /* AppDelegate.h */,
 				DE61662518E683EF003D71DE /* AppDelegate.m */,
+				DE65FF5F18EA637D00879D6B /* Atlases */,
 				DEC2C3FA18E7CDDA00864AC3 /* CritterSpriteNode.h */,
 				DEC2C3FB18E7CDDA00864AC3 /* CritterSpriteNode.m */,
 				DE46434918E7552D006118C2 /* Globals.h */,
@@ -195,6 +204,17 @@
 				DE61664518E683EF003D71DE /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DE65FF5F18EA637D00879D6B /* Atlases */ = {
+			isa = PBXGroup;
+			children = (
+				DE65FF6C18EA66CE00879D6B /* Critter1.atlas */,
+				DE65FF6D18EA66CE00879D6B /* Critter2.atlas */,
+				DE65FF6E18EA66CE00879D6B /* Critter3.atlas */,
+				DE65FF7218EA68D900879D6B /* Virus.atlas */,
+			);
+			name = Atlases;
 			sourceTree = "<group>";
 		};
 		DEB192D618E7D7F300B876F2 /* Sounds */ = {
@@ -290,8 +310,12 @@
 				DE61662C18E683EF003D71DE /* Main_iPad.storyboard in Resources */,
 				DEC2C3F918E7BA0300864AC3 /* eaten.mp3 in Resources */,
 				DE46434F18E75D11006118C2 /* contact.mp3 in Resources */,
+				DE65FF7318EA68D900879D6B /* Virus.atlas in Resources */,
 				DE61662918E683EF003D71DE /* Main_iPhone.storyboard in Resources */,
 				DE61662018E683EF003D71DE /* InfoPlist.strings in Resources */,
+				DE65FF7118EA66CE00879D6B /* Critter3.atlas in Resources */,
+				DE65FF7018EA66CE00879D6B /* Critter2.atlas in Resources */,
+				DE65FF6F18EA66CE00879D6B /* Critter1.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -444,6 +468,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 			};
@@ -478,6 +503,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				SDKROOT = iphoneos;
+				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "armv7 armv7s";
